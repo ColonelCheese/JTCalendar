@@ -33,7 +33,8 @@
 @property (nonatomic, readonly) JTCalendarDelegateManager *delegateManager;
 @property (nonatomic, readonly) JTCalendarScrollManager *scrollManager;
 
-- (instancetype)initWithLocale:(NSLocale *)locale andTimeZone:(NSTimeZone *)timeZone;
+// Use for override
+- (void)commonInit;
 
 - (NSDate *)date;
 - (void)setDate:(NSDate *)date;

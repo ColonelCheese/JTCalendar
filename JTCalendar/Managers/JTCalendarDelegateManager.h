@@ -33,6 +33,8 @@
 
 - (UIView<JTCalendarWeekDay> *)buildWeekDayView;
 - (UIView<JTCalendarWeek> *)buildWeekView;
+- (CGFloat)gapForWeek;
+- (CGFloat)gapForDay;
 
 
 // Week view

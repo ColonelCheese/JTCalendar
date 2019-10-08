@@ -15,6 +15,9 @@
 
 @property (nonatomic) NSDate *date;
 
+- (NSDate *)nextMonthDate;
+- (NSDate *)nprevMonthDate;
+
 /*!
  * Must be call if override the class
  */

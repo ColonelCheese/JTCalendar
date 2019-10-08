@@ -8,6 +8,7 @@
 #import "JTCalendarWeekDayView.h"
 
 #import "JTCalendarManager.h"
+#import "JTCalendarColorManager.h"
 
 #define NUMBER_OF_DAY_BY_WEEK 7.
 
@@ -68,8 +69,10 @@
         case JTCalendarWeekDayFormatSingle:
             days = [[dateFormatter veryShortStandaloneWeekdaySymbols] mutableCopy];
             break;
-        case JTCalendarWeekDayFormatShort:
-            days = [[dateFormatter shortStandaloneWeekdaySymbols] mutableCopy];
+        case JTCalendarWeekDayFormatShort:{
+            dateFormatter.shortMonthSymbols = @[@"SU",@"MO",@"TU",@"WE",@"TH",@"FR",@"SA"];
+            days = [@[@"SU",@"MO",@"TU",@"WE",@"TH",@"FR",@"SA"] mutableCopy];//[[dateFormatter shortStandaloneWeekdaySymbols] mutableCopy];
+        }
             break;
         case JTCalendarWeekDayFormatFull:
             days = [[dateFormatter standaloneWeekdaySymbols] mutableCopy];
@@ -78,7 +81,7 @@
     
     for(NSInteger i = 0; i < days.count; ++i){
         NSString *day = days[i];
-        [days replaceObjectAtIndex:i withObject:[day uppercaseString]];
+        [days replaceObjectAtIndex:i withObject:[day capitalizedString]];
     }
     
     // Redorder days for be conform to calendar
@@ -96,8 +99,15 @@
     for(int i = 0; i < NUMBER_OF_DAY_BY_WEEK; ++i){
         UILabel *label =  _dayViews[i];
         label.text = days[i];
+        label.font = [[JTCalendarColorManager sharedManager] boldFontWithSize:14];
+        if ([label.text isEqualToString:@"Sa"] || [label.text isEqualToString:@"Su"]) {
+            label.textColor = [UIColor colorWithRed:228.0/255.0 green:61.0/255.0 blue:61.0/255.0 alpha:1];
+        } else {
+            label.textColor = [UIColor colorWithRed:34.0/255.0 green:34.0/255.0 blue:34.0/255.0 alpha:1];
+        }
     }
 }
+
 
 - (void)layoutSubviews
 {
@@ -112,7 +122,7 @@
     CGFloat dayHeight = self.frame.size.height;
     
     for(UIView *dayView in _dayViews){
-        dayView.frame = CGRectMake(x, 0, ceil(dayWidth), ceil(dayHeight));
+        dayView.frame = CGRectMake(x, 0, dayWidth, dayHeight);
         x += dayWidth;
     }
 }

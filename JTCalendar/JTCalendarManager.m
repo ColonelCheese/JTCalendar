@@ -13,23 +13,19 @@
 
 - (instancetype)init
 {
-    return [self initWithLocale:[NSLocale currentLocale] andTimeZone:[NSTimeZone localTimeZone]];
-}
-
-- (instancetype)initWithLocale:(NSLocale *)locale andTimeZone:(NSTimeZone *)timeZone
-{
     self = [super init];
     if(!self){
         return nil;
     }
-    [self commonInit:locale andTimeZone:timeZone];
+    
+    [self commonInit];
     
     return self;
 }
 
-- (void)commonInit:(NSLocale *)locale andTimeZone:(NSTimeZone *)timeZone
+- (void)commonInit
 {
-    _dateHelper = [[JTDateHelper alloc] initWithLocale:locale andTimeZone:timeZone];
+    _dateHelper = [JTDateHelper new];
     _settings = [JTCalendarSettings new];
     
     _delegateManager = [JTCalendarDelegateManager new];

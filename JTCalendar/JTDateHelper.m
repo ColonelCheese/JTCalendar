@@ -9,23 +9,11 @@
 
 @interface JTDateHelper (){
     NSCalendar *_calendar;
-    NSLocale *_locale;
-    NSTimeZone *_timeZone;
 }
 
 @end
 
 @implementation JTDateHelper
-
-- (instancetype)initWithLocale:(NSLocale *)locale andTimeZone:(NSTimeZone *)timeZone
-{
-    self = [super init];
-    if (self) {
-        _locale = locale;
-        _timeZone = timeZone;
-    }
-    return self;
-}
 
 - (NSCalendar *)calendar
 {
@@ -35,8 +23,9 @@
 #else
         _calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 #endif
-        _calendar.timeZone = _timeZone;
-        _calendar.locale = _locale;
+        _calendar.timeZone = [NSTimeZone localTimeZone];
+        _calendar.locale = [NSLocale currentLocale];
+        _calendar.firstWeekday = 2;
     }
     
     return _calendar;

@@ -11,6 +11,7 @@
 
 #define MAX_WEEKS_BY_MONTH 6
 
+
 @interface JTCalendarPageView (){
     UIView<JTCalendarWeekDay> *_weekDayView;
     NSMutableArray *_weeksViews;
@@ -133,18 +134,21 @@
     if(_manager.settings.pageViewHaveWeekDaysView){
         CGFloat weekDayHeight = _weekDayView.frame.size.height; // Force use default height
         
-        // Or use the same height than weeksViews
-        if(weekDayHeight == 0 || _manager.settings.pageViewWeekDaysViewAutomaticHeight){
+        if(weekDayHeight == 0){ // Or use the same height than weeksViews
             weekDayHeight = self.frame.size.height / (_numberOfWeeksDisplayed + 1);
         }
         
         _weekDayView.frame = CGRectMake(0, 0, weekWidth, weekDayHeight);
         y = weekDayHeight;
     }
+    CGFloat gap = self.manager.delegateManager.gapForWeek;
     
-    CGFloat weekHeight = (self.frame.size.height - y) / _numberOfWeeksDisplayed;
+    CGFloat weekHeight = (self.frame.size.height - y - gap * (_numberOfWeeksDisplayed - 1)) / _numberOfWeeksDisplayed;
     
     for(UIView *weekView in _weeksViews){
+        if ([_weeksViews indexOfObject:weekView] > 0) {
+            y += gap;
+        }
         weekView.frame = CGRectMake(0, y, weekWidth, weekHeight);
         y += weekHeight;
     }

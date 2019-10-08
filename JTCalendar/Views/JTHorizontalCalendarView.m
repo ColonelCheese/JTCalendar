@@ -130,6 +130,11 @@ typedef NS_ENUM(NSInteger, JTCalendarPageMode) {
 
 - (void)loadPreviousPageWithAnimation
 {
+    BOOL animated = [UIView areAnimationsEnabled];
+    [UIView setAnimationsEnabled:NO];
+    
+    [UIView setAnimationsEnabled:animated];
+    
     switch (_pageMode) {
         case JTCalendarPageModeCenterRight:
         case JTCalendarPageModeCenter:
@@ -140,11 +145,20 @@ typedef NS_ENUM(NSInteger, JTCalendarPageMode) {
     
     CGSize size = self.frame.size;
     CGPoint point = CGPointMake(self.contentOffset.x - size.width, 0);
-    [self setContentOffset:point animated:YES];
+    
+    
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [self setContentOffset:point];
+    } completion:nil];
+    
 }
 
 - (void)loadNextPageWithAnimation
 {
+    BOOL animated = [UIView areAnimationsEnabled];
+    [UIView setAnimationsEnabled:NO];
+    [UIView setAnimationsEnabled:animated];
+    
     switch (_pageMode) {
         case JTCalendarPageModeCenterLeft:
         case JTCalendarPageModeCenter:
@@ -155,7 +169,9 @@ typedef NS_ENUM(NSInteger, JTCalendarPageMode) {
     
     CGSize size = self.frame.size;
     CGPoint point = CGPointMake(self.contentOffset.x + size.width, 0);
-    [self setContentOffset:point animated:YES];
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [self setContentOffset:point];
+    } completion:nil];
 }
 
 - (void)loadPreviousPage
@@ -398,7 +414,6 @@ typedef NS_ENUM(NSInteger, JTCalendarPageMode) {
 {
     CGSize size = self.frame.size;
     self.contentInset = UIEdgeInsetsZero;
-    
     switch (_pageMode) {
         case JTCalendarPageModeFull:
             self.contentSize = CGSizeMake(size.width * 3, size.height);
@@ -444,6 +459,14 @@ typedef NS_ENUM(NSInteger, JTCalendarPageMode) {
     [_manager.scrollManager setMenuPreviousDate:_leftView.date
                                     currentDate:_centerView.date
                                        nextDate:_rightView.date];
+}
+
+- (NSDate *)nextMonthDate {
+    return _rightView.date;
+}
+
+- (NSDate *)nprevMonthDate {
+    return _leftView.date;
 }
 
 @end

@@ -10,6 +10,7 @@
 #import "JTCalendarManager.h"
 
 #define NUMBER_OF_DAY_BY_WEEK 7.
+#define GAP_FOR_DATE 5
 
 @interface JTCalendarWeekView (){
     NSMutableArray *_daysViews;
@@ -109,10 +110,15 @@
     }
     
     CGFloat x = 0;
-    CGFloat dayWidth = self.frame.size.width / NUMBER_OF_DAY_BY_WEEK;
+    
+    CGFloat gap = self.manager.delegateManager.gapForDay;
+    CGFloat dayWidth = (self.frame.size.width - gap * (NUMBER_OF_DAY_BY_WEEK - 1)) / NUMBER_OF_DAY_BY_WEEK;
     CGFloat dayHeight = self.frame.size.height;
     
     for(UIView *dayView in _daysViews){
+        if ([_daysViews indexOfObject:dayView] != 0) {
+            x += gap;
+        }
         dayView.frame = CGRectMake(x, 0, dayWidth, dayHeight);
         x += dayWidth;
     }

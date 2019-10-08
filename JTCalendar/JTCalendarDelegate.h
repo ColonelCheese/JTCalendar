@@ -112,4 +112,14 @@
  */
 - (void)calendar:(JTCalendarManager *)calendar didTouchDayView:(UIView<JTCalendarDay> *)dayView;
 
+/*!
+ * Custom space between weeks.
+ */
+- (CGFloat)gapForWeek;
+
+/*!
+ * Custom space between days.
+ */
+- (CGFloat)gapForDay;
+
 @end

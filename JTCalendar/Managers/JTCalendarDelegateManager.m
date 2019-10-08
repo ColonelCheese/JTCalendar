@@ -14,6 +14,9 @@
 #import "JTCalendarWeekView.h"
 #import "JTCalendarDayView.h"
 
+
+#define GAP_FOR_WEEK 20
+
 @implementation JTCalendarDelegateManager
 
 #pragma mark - Menu view
@@ -132,6 +135,20 @@
     }
     
     return [JTCalendarWeekView new];
+}
+
+- (CGFloat)gapForWeek {
+    if(_manager.delegate && [_manager.delegate respondsToSelector:@selector(gapForWeek)]){
+        return [_manager.delegate gapForWeek];
+    }
+    return GAP_FOR_WEEK;
+}
+
+- (CGFloat)gapForDay {
+    if(_manager.delegate && [_manager.delegate respondsToSelector:@selector(gapForDay)]){
+        return [_manager.delegate gapForDay];
+    }
+    return GAP_FOR_WEEK;
 }
 
 #pragma mark - Week view
